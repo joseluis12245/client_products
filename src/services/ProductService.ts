@@ -5,7 +5,7 @@ import {
   Product,
 } from "../types";
 import axios from "axios";
-import { safeParse, number, parse, boolean } from "valibot";
+import { safeParse } from "valibot";
 
 type ProductData = {
   [k: string]: FormDataEntryValue;

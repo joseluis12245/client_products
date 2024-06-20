@@ -9,7 +9,6 @@ import {
 } from "react-router-dom";
 import ErrorMessage from "../components/ErrorMessage";
 import {
-  addProduct,
   getProductById,
   updateProduct,
 } from "../services/ProductService";
@@ -44,14 +43,13 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
   return redirect("/");
 }
-interface Props {}
 
 const availabilityOptions = [
   { name: "Available", value: true },
   { name: "Not available", value: false },
 ];
 
-function EditProduct(props: Props) {
+function EditProduct() {
   const product = useLoaderData() as Product;
   const error = useActionData() as string;
 

@@ -1,4 +1,4 @@
-import { number, object, string, boolean, Output, array } from "valibot";
+import { number, object, string, boolean, array } from "valibot";
 
 export const DraftProductSchema = object({
     name: string(),
@@ -13,4 +13,4 @@ export const ProductSchema = object({
 })
 
 export const ProductsSchema = array(ProductSchema)
-export type Product = Output<typeof ProductSchema>
+export type Product = typeof ProductSchema

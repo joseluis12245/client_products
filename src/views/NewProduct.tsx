@@ -25,9 +25,8 @@ export async function action({ request }: ActionFunctionArgs) {
 
   return redirect("/")
 }
-interface Props {}
 
-function NewProduct(props: Props) {
+function NewProduct() {
   const error = useActionData() as string;
 
   return (
