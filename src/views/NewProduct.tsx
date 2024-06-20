@@ -1,12 +1,35 @@
-import React from "react";
-import { Link, Form } from "react-router-dom";
+import {
+  Link,
+  Form,
+  useActionData,
+  ActionFunctionArgs,
+  redirect
+} from "react-router-dom";
+import ErrorMessage from "../components/ErrorMessage";
+import { addProduct } from "../services/ProductService";
+import ProductForm from "../components/ProductForm";
 
-export async function action(){
-    console.log("from action...")
+export async function action({ request }: ActionFunctionArgs) {
+  const data = Object.fromEntries(await request.formData());
+  let error = "";
+
+  if (Object.values(data).includes("")) {
+    error = "All fields are required";
+  }
+
+  if (error.length) {
+    return error;
+  }
+
+  await addProduct(data);
+
+  return redirect("/")
 }
 interface Props {}
 
 function NewProduct(props: Props) {
+  const error = useActionData() as string;
+
   return (
     <>
       <div className="flex justify-between">
@@ -18,31 +41,12 @@ function NewProduct(props: Props) {
           Go back to Products
         </Link>
       </div>
-      <Form className="mt-10" method="POST" >
-        <div className="mb-4">
-          <label className="text-gray-800" htmlFor="name">
-            Product name:
-          </label>
-          <input
-            id="name"
-            type="text"
-            className="mt-2 block w-full p-3 bg-gray-50"
-            placeholder="Name of the product"
-            name="name"
-          />
-        </div>
-        <div className="mb-4">
-          <label className="text-gray-800" htmlFor="price">
-            Price:
-          </label>
-          <input
-            id="price"
-            type="number"
-            className="mt-2 block w-full p-3 bg-gray-50"
-            placeholder="Price of the product. ej. 200, 300"
-            name="price"
-          />
-        </div>
+
+      {error && <ErrorMessage>{error}</ErrorMessage>}
+
+      <Form className="mt-10" method="POST">
+       
+       <ProductForm />
         <input
           type="submit"
           className="mt-5 w-full bg-indigo-600 p-2 text-white font-bold text-lg cursor-pointer rounded"
